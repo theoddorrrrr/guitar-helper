@@ -1,0 +1,26 @@
+.guitar-notes {
+  margin: 0 auto;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.guitar-base-note {
+  display: inline-flex;
+  gap: 15px;
+}
+
+.guitar-note {
+  text-align: center;
+  font-weight: bold;
+
+  width: 30px;
+  height: 20px;
+
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: rgb(206, 206, 206);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
