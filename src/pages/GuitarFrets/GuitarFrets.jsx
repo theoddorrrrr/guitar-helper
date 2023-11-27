@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import SelectLimit from "./components/SelectLimit";
 import { NUMBERS, notes, tuning } from "../../constants/guitar";
+import { Flex } from "@chakra-ui/react";
 
 const listOfNotes = [...notes, ...notes, ...notes];
 
@@ -23,56 +24,58 @@ const GuitarFrets = () => {
         <SelectLimit setNoteLimit={setNoteLimit} noteLimit={noteLimit} />
       </Box>
 
-      <Box className="guitar-notes" textAlign={"center"}>
-        {tuning.map((baseNote) => {
-          const startIndex = listOfNotes.findIndex(
-            (note) => note.value === baseNote.value
-          );
+      <Flex justifyContent="center">
+        <Box className="guitar-notes">
+          {tuning.map((baseNote) => {
+            const startIndex = listOfNotes.findIndex(
+              (note) => note.value === baseNote.value
+            );
 
-          return (
-            <Box className="guitar-base-note" key={baseNote.order}>
-              {listOfNotes.map((note, noteIndex) => {
-                if (baseNote.value === NUMBERS && noteIndex <= noteLimit)
+            return (
+              <Box className="guitar-base-note" key={baseNote.order}>
+                {listOfNotes.map((note, noteIndex) => {
+                  if (baseNote.value === NUMBERS && noteIndex <= noteLimit)
+                    return (
+                      <Box
+                        className="guitar-note"
+                        mt={5}
+                        color="#CBD5E0"
+                        key={noteIndex}
+                      >
+                        {noteIndex}
+                      </Box>
+                    );
+
+                  if (
+                    noteIndex < startIndex ||
+                    noteIndex - startIndex > noteLimit
+                  )
+                    return;
+
                   return (
                     <Box
                       className="guitar-note"
-                      mt={5}
-                      color="#CBD5E0"
-                      key={noteIndex}
+                      color={note.color}
+                      key={note.value + baseNote.order + noteIndex}
+                      onClick={() => selectNote(note, baseNote)}
+                      style={
+                        selectedNote && selectedNote !== note.value
+                          ? { opacity: 0.1 }
+                          : note.value.includes("#") &&
+                            selectedNote === note.value
+                          ? { opacity: 1, color: "#D53F8C" }
+                          : { opacity: 1 }
+                      }
                     >
-                      {noteIndex}
+                      {note.value}
                     </Box>
                   );
-
-                if (
-                  noteIndex < startIndex ||
-                  noteIndex - startIndex > noteLimit
-                )
-                  return;
-
-                return (
-                  <Box
-                    className="guitar-note"
-                    color={note.color}
-                    key={note.value + baseNote.order + noteIndex}
-                    onClick={() => selectNote(note, baseNote)}
-                    style={
-                      selectedNote && selectedNote !== note.value
-                        ? { opacity: 0.1 }
-                        : note.value.includes("#") &&
-                          selectedNote === note.value
-                        ? { opacity: 1, color: "#D53F8C" }
-                        : { opacity: 1 }
-                    }
-                  >
-                    {note.value}
-                  </Box>
-                );
-              })}
-            </Box>
-          );
-        })}
-      </Box>
+                })}
+              </Box>
+            );
+          })}
+        </Box>
+      </Flex>
     </Box>
   );
 };

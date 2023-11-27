@@ -1,11 +1,15 @@
 .guitar-notes {
-  margin: 0 auto;
-  width: 100%;
-  overflow-x: auto;
+  // margin: 0 auto;
+  // width: 100%;
+  overflow: auto hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
 }
 
 .guitar-base-note {
-  display: inline-flex;
+  display: flex;
   gap: 15px;
 }
 
