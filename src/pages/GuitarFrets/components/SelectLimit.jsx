@@ -15,7 +15,6 @@ const SelectLimit = ({ setNoteLimit, noteLimit }) => {
   return (
     <Select
       maxWidth="100px"
-      margin="0 auto"
       placeholder="Limit"
       onChange={changeLimit}
       value={noteLimit}

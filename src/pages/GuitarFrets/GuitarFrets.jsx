@@ -1,7 +1,13 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
 import SelectLimit from "./components/SelectLimit";
-import { NUMBERS, notes, tuning } from "../../constants/guitar";
+import {
+  NUMBERS,
+  defaultStringColor,
+  guitarGameSteps,
+  notes,
+  tuning,
+} from "../../constants/guitar";
 import { Flex } from "@chakra-ui/react";
 
 const listOfNotes = [...notes, ...notes, ...notes];
@@ -10,23 +16,57 @@ const GuitarFrets = () => {
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteLimit, setNoteLimit] = useState(15);
 
-  const selectNote = (note, baseNote) => {
-    if (selectedNote && selectedNote === note.value) {
-      return setSelectedNote(null);
+  const [buttonText, setButtonText] = useState(guitarGameSteps.start);
+  const [generatedNote, setGeneratedNote] = useState("");
+  const isGameStarted = buttonText === guitarGameSteps.stop;
+  const startGame = () => {
+    setSelectedNote(null);
+
+    if (buttonText === guitarGameSteps.start) {
+      generateRandomNote();
+      setButtonText(guitarGameSteps.stop);
+    } else if (buttonText === guitarGameSteps.stop) {
+      setButtonText(guitarGameSteps.start);
+      setGeneratedNote("");
+    }
+  };
+
+  const generateRandomNote = (min = 0, max = 11) => {
+    const floatRandom = Math.random();
+
+    const difference = max - min;
+    const random = Math.round(difference * floatRandom);
+
+    const indexOfNote = random + min;
+
+    setGeneratedNote(notes[indexOfNote].value);
+  };
+
+  const selectNote = (note) => {
+    if (selectNote) {
+      console.log("here the logic when game runs");
     }
 
-    setSelectedNote(note.value);
+    if (!isGameStarted) {
+      if (selectedNote && selectedNote === note.value) {
+        return setSelectedNote(null);
+      }
+
+      setSelectedNote(note.value);
+    }
   };
 
   return (
     <Box>
-      <Box mb={3}>
+      <Flex mb={3} justifyContent="center" alignItems="center" gap={5}>
         <SelectLimit setNoteLimit={setNoteLimit} noteLimit={noteLimit} />
-      </Box>
+        <Button onClick={startGame}>{buttonText}</Button>
+        <Box>{generatedNote}</Box>
+      </Flex>
 
       <Flex justifyContent="center">
         <Box className="guitar-notes">
-          {tuning.map((baseNote) => {
+          {tuning.map((baseNote, baseNoteIndex) => {
             const startIndex = listOfNotes.findIndex(
               (note) => note.value === baseNote.value
             );
@@ -39,13 +79,14 @@ const GuitarFrets = () => {
                       <Box
                         className="guitar-note"
                         mt={5}
-                        color="#CBD5E0"
+                        color={defaultStringColor}
                         key={noteIndex}
                       >
                         {noteIndex}
                       </Box>
                     );
 
+                  // Dont render notes if it is close to limit
                   if (
                     noteIndex < startIndex ||
                     noteIndex - startIndex > noteLimit
@@ -55,11 +96,13 @@ const GuitarFrets = () => {
                   return (
                     <Box
                       className="guitar-note"
-                      color={note.color}
+                      color={isGameStarted ? defaultStringColor : note.color}
                       key={note.value + baseNote.order + noteIndex}
-                      onClick={() => selectNote(note, baseNote)}
+                      onClick={() => selectNote(note)}
                       style={
-                        selectedNote && selectedNote !== note.value
+                        isGameStarted
+                          ? { color: defaultStringColor }
+                          : selectedNote && selectedNote !== note.value
                           ? { opacity: 0.1 }
                           : note.value.includes("#") &&
                             selectedNote === note.value
@@ -67,7 +110,7 @@ const GuitarFrets = () => {
                           : { opacity: 1 }
                       }
                     >
-                      {note.value}
+                      {isGameStarted ? "-" : note.value}
                     </Box>
                   );
                 })}

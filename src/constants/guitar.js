@@ -1,3 +1,5 @@
+export const defaultStringColor = "#CBD5E0";
+
 export const notes = [
   {
     value: "A",
@@ -6,7 +8,7 @@ export const notes = [
   },
   {
     value: "A#",
-    color: "#CBD5E0",
+    color: defaultStringColor,
     isMain: false,
   },
   {
@@ -21,7 +23,7 @@ export const notes = [
   },
   {
     value: "C#",
-    color: "#CBD5E0",
+    color: defaultStringColor,
     isMain: false,
   },
   {
@@ -31,7 +33,7 @@ export const notes = [
   },
   {
     value: "D#",
-    color: "#CBD5E0",
+    color: defaultStringColor,
     isMain: false,
   },
   {
@@ -46,7 +48,7 @@ export const notes = [
   },
   {
     value: "F#",
-    color: "#CBD5E0",
+    color: defaultStringColor,
     isMain: false,
   },
   {
@@ -56,7 +58,7 @@ export const notes = [
   },
   {
     value: "G#",
-    color: "#CBD5E0",
+    color: defaultStringColor,
     isMain: false,
   },
 ];
@@ -76,4 +78,9 @@ export const tuning = [
 export const guitarLimits = {
   start: 5,
   end: 20,
+};
+
+export const guitarGameSteps = {
+  start: "Start",
+  stop: "Stop",
 };
