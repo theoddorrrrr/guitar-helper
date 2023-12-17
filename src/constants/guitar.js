@@ -84,3 +84,15 @@ export const guitarGameSteps = {
   start: "Start",
   stop: "Stop",
 };
+
+export const typeOfChord = {
+  major: "Major",
+  minor: "Minor",
+};
+
+export const gapsForChords = {
+  major: [4, 3],
+  minor: [3, 4],
+};
+
+export const primaryNoteColor = "#D53F8C";
